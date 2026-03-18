@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard - Análisis de Texto</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Upload Section -->
+  <div id="upload-section" class="page-center">
+    <div class="upload-card">
+      <div class="upload-icon">📄</div>
+      <h1>Análisis de Documento</h1>
+      <p class="subtitle">Carga un archivo <strong>.txt</strong> para generar un dashboard con estadísticas y gráficas</p>
+
+      <div id="drop-zone" class="drop-zone">
+        <input type="file" id="file-input" accept=".txt" hidden />
+        <div class="drop-content">
+          <span class="drop-icon">⬆️</span>
+          <p>Arrastra tu archivo aquí o</p>
+          <button class="btn-secondary" onclick="document.getElementById('file-input').click()">
+            Seleccionar archivo
+          </button>
+        </div>
+        <div id="file-preview" class="file-preview hidden">
+          <span class="file-icon">📄</span>
+          <span id="file-name"></span>
+          <span id="file-size" class="file-size"></span>
+        </div>
+      </div>
+
+      <div id="upload-error" class="error-msg hidden"></div>
+
+      <button id="analyze-btn" class="btn-primary" disabled onclick="uploadFile()">
+        Analizar documento
+      </button>
+    </div>
+  </div>
+
+  <!-- Dashboard Section -->
+  <div id="dashboard-section" class="hidden">
+    <header class="dash-header">
+      <div class="header-inner">
+        <h1>📊 Dashboard de Análisis</h1>
+        <div class="header-meta">
+          <span id="dash-filename"></span>
+          <button class="btn-outline" onclick="resetDashboard()">⬅ Nuevo archivo</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="dash-main">
+      <!-- KPI Cards -->
+      <section class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-label">Total caracteres</div>
+          <div id="kpi-chars" class="kpi-value">—</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Total palabras</div>
+          <div id="kpi-words" class="kpi-value">—</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Palabras únicas</div>
+          <div id="kpi-unique" class="kpi-value">—</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Líneas totales</div>
+          <div id="kpi-lines" class="kpi-value">—</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Promedio chars/línea</div>
+          <div id="kpi-avgline" class="kpi-value">—</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Promedio palabras/línea</div>
+          <div id="kpi-avgwords" class="kpi-value">—</div>
+        </div>
+      </section>
+
+      <!-- Charts Grid -->
+      <section class="charts-grid">
+        <div class="chart-card wide">
+          <h2>Top 15 palabras más frecuentes</h2>
+          <div class="chart-wrap">
+            <canvas id="chart-top-words"></canvas>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <h2>Distribución de caracteres</h2>
+          <div class="chart-wrap chart-wrap-sm">
+            <canvas id="chart-char-types"></canvas>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <h2>Longitud de líneas</h2>
+          <div class="chart-wrap chart-wrap-sm">
+            <canvas id="chart-line-length"></canvas>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <h2>Distribución longitud de palabras</h2>
+          <div class="chart-wrap chart-wrap-sm">
+            <canvas id="chart-word-length"></canvas>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="loading-overlay" class="loading-overlay hidden">
+    <div class="spinner"></div>
+    <p>Analizando documento...</p>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
